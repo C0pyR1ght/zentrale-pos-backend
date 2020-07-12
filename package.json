@@ -1,0 +1,21 @@
+{
+  "name": "zentrale-pos-backend",
+  "version": "1.0.0",
+  "description": "Backend for zentrale-pos react app",
+  "author": "C0pyR1ght <luca.feiser@gmail.com>",
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "start": "./bin/app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "pino": "^6.3.2",
+    "pino-http": "^5.2.0",
+    "pino-pretty": "^4.0.1"
+  }
+}
