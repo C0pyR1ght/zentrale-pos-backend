@@ -14,6 +14,26 @@ module.exports = function (req, res) {
             },
             {
                 id: 2,
+                name: "Niklas Leonhardt",
+                imgsrc: "/img/avatars/avatar-standard.png"
+            },
+            {
+                id: 3,
+                name: "Merlin",
+                imgsrc: "/img/avatars/avatar-standard.png"
+            },
+            {
+                id: 4,
+                name: "Leon Feiser",
+                imgsrc: "/img/avatars/avatar-standard.png"
+            },
+            {
+                id: 5,
+                name: "Paul Schlitt",
+                imgsrc: "/img/avatars/avatar-standard.png"
+            },
+            {
+                id: 6,
                 name: "Gast",
                 imgsrc: "/img/avatars/avatar-standard.png"
             }
