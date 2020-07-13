@@ -52,6 +52,7 @@ module.exports = function main (options, cb) {
   var whitelist = ['http://localhost:3000'];
   var corsOptions = {
     origin: function (origin, callback) {
+      console.log(origin);
       if (whitelist.indexOf(origin) !== -1) {
         callback(null, true)
       } else {
@@ -62,7 +63,7 @@ module.exports = function main (options, cb) {
 
   // Then pass them to cors:
   app.use(cors(corsOptions));
-      
+
   // Register routes
   // @NOTE: require here because this ensures that even syntax errors
   // or other startup related errors are caught logged and debuggable.
@@ -104,4 +105,3 @@ module.exports = function main (options, cb) {
     ready(err, app, server)
   })
 }
-
