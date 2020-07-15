@@ -52,7 +52,7 @@ module.exports = function main (options, cb) {
 
   // Set up a whitelist and check against it:
   var corsOptions = {
-    origin: 'https://zentrale-online.org/',
+    origin: 'https://zentrale-online.org',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
