@@ -2,7 +2,7 @@
 'use strict'
 
 // Pass configuration to application
-require('../')({
+require('./index')({
   port: 8000,
   host: 'localhost'
-})
+});
