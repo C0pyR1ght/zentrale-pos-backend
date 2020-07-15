@@ -51,16 +51,9 @@ module.exports = function main (options, cb) {
   app.use(bodyParser.json());
 
   // Set up a whitelist and check against it:
-  var whitelist = ['http://localhost:3000'];
   var corsOptions = {
-    origin: function (origin, callback) {
-      console.log(origin);
-      if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true)
-      } else {
-        callback(new Error('Not allowed by CORS'))
-      }
-    }
+    origin: 'https://zentrale-online.org/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
   // Then pass them to cors:
