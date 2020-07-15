@@ -1,5 +1,6 @@
 'use strict'
 
 module.exports = function (req, res) {
-  res.status(req.body);
+  console.log(req.body);
+  res.send(req.body);
 }

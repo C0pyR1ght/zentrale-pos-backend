@@ -1,9 +1,10 @@
-'use strict'
-const express = require('express')
-const httpErrors = require('http-errors')
-const pino = require('pino')
-const pinoHttp = require('pino-http')
+'use strict';
+const express = require('express');
+const httpErrors = require('http-errors');
+const pino = require('pino');
+const pinoHttp = require('pino-http');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 module.exports = function main (options, cb) {
   // Set default options
@@ -46,7 +47,8 @@ module.exports = function main (options, cb) {
 
   // Common middleware
   // app.use(/* ... */)
-  app.use(pinoHttp({ logger }))
+  app.use(pinoHttp({ logger }));
+  app.use(bodyParser.json());
 
   // Set up a whitelist and check against it:
   var whitelist = ['http://localhost:3000'];
