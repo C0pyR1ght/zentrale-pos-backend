@@ -5,31 +5,32 @@ const pino = require('pino');
 const pinoHttp = require('pino-http');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const mysql = require('mysql2');
 
 module.exports = function main (options, cb) {
   // Set default options
-  const ready = cb || function () {}
+  const ready = cb || function () {};
   const opts = Object.assign({
     // Default options
-  }, options)
+  }, options);
 
-  const logger = pino()
+  const logger = pino();
 
   // Server state
-  let server
-  let serverStarted = false
-  let serverClosing = false
+  let server;
+  let serverStarted = false;
+  let serverClosing = false;
 
   // Setup error handling
   function unhandledError (err) {
     // Log the errors
-    logger.error(err)
+    logger.error(err);
 
     // Only clean up once
     if (serverClosing) {
       return
     }
-    serverClosing = true
+    serverClosing = true;
 
     // If server has started, close it down
     if (serverStarted) {
@@ -38,23 +39,31 @@ module.exports = function main (options, cb) {
       })
     }
   }
-  process.on('uncaughtException', unhandledError)
-  process.on('unhandledRejection', unhandledError)
+  process.on('uncaughtException', unhandledError);
+  process.on('unhandledRejection', unhandledError);
+
+  global.connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_DATABSE
+  });
 
   // Create the express app
-  const app = express()
+  const app = express();
 
 
   // Common middleware
   // app.use(/* ... */)
   app.use(pinoHttp({ logger }));
   app.use(bodyParser.json());
+  app.set('view engine', 'ejs');
 
   // Set up a whitelist and check against it:
   var corsOptions = {
     origin: 'https://zentrale-online.org',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+  };
 
   // Then pass them to cors:
   app.use(cors(corsOptions));
@@ -65,15 +74,16 @@ module.exports = function main (options, cb) {
   // Alternativly, you could setup external log handling for startup
   // errors and handle them outside the node process.  I find this is
   // better because it works out of the box even in local development.
-  require('./routes')(app, opts)
+  require('./routes')(app, opts);
 
   // Common error handlers
   app.use(function fourOhFourHandler (req, res, next) {
     next(httpErrors(404, `Route not found: ${req.url}`))
-  })
+  });
+
   app.use(function fiveHundredHandler (err, req, res, next) {
     if (err.status >= 500) {
-      logger.error(err)
+      logger.error(err);
     }
     res.status(err.status || 500).json({
       messages: [{
@@ -81,22 +91,22 @@ module.exports = function main (options, cb) {
         message: err.message
       }]
     })
-  })
+  });
 
   // Start server
   server = app.listen(opts.port, opts.host, function (err) {
     if (err) {
-      return ready(err, app, server)
+      return ready(err, app, server);
     }
 
     // If some other error means we should close
     if (serverClosing) {
-      return ready(new Error('Server was closed before it could start'))
+      return ready(new Error('Server was closed before it could start'));
     }
 
-    serverStarted = true
-    const addr = server.address()
-    logger.info(`Started at ${opts.host || addr.host || 'localhost'}:${addr.port}`)
+    serverStarted = true;
+    const addr = server.address();
+    logger.info(`Started at ${opts.host || addr.host || 'localhost'}:${addr.port}`);
     ready(err, app, server)
-  })
-}
+  });
+};

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>Zentrale-POS | Admin Dashboard</title>
+</head>
+<body>
+    <h1>Zentrale-POS | Admin Dashboard</h1>
+    <ul>
+        <li>
+            <form action="/api/accountingperiod/endcurrentperiod" method="post">
+                <button type="submit">Aktuellen Abrechnungszeitraum beenden</button>
+            </form>
+        </li>
+        <li>
+            <form action="/api/accountingperiod/createinvoicesforlatestendedperiod" method="post">
+                <button type="submit">Rechnungen für den zuletzt geendeten Abrechnungszeitraum erstellen</button>
+            </form>
+        </li>
+    </ul>
+</body>
+</html>
+

@@ -1,41 +1,14 @@
-'use strict'
+'use strict';
 
 module.exports = function (req, res) {
-  res.json([
-            {
-                id: 0,
-                name: "Lucas Böhm",
-                imgsrc: "/img/avatars/avatar-lucas.png"
-            },
-            {
-                id: 1,
-                name: "Luca Feiser",
-                imgsrc: "/img/avatars/avatar-luca.png"
-            },
-            {
-                id: 2,
-                name: "Niklas Leonhardt",
-                imgsrc: "/img/avatars/avatar-standard.png"
-            },
-            {
-                id: 3,
-                name: "Merlin",
-                imgsrc: "/img/avatars/avatar-standard.png"
-            },
-            {
-                id: 4,
-                name: "Leon Feiser",
-                imgsrc: "/img/avatars/avatar-standard.png"
-            },
-            {
-                id: 5,
-                name: "Paul Schlitt",
-                imgsrc: "/img/avatars/avatar-standard.png"
-            },
-            {
-                id: 6,
-                name: "Gast",
-                imgsrc: "/img/avatars/avatar-standard.png"
-            }
-        ])
-}
+    connection.query(
+        'SELECT * FROM `pos_accounts` ORDER BY `name`',
+        function (err, results) {
+            results.map((row) => {
+                row.profile_picture === '' ? row.profile_picture = process.env.AVATAR_DEFAULT : null;
+                row.profile_picture = process.env.AVATAR_BASEURI + row.profile_picture;
+            });
+            res.json(results);
+        }
+    );
+};
