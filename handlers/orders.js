@@ -11,7 +11,14 @@ module.exports = function (req, res) {
     connection.query(
         query,
         function (err, results) {
-            if (err) req.status(500).end();
+          if (err) {
+            console.error(err);
+            return req.status(500).end();
+          }
+            results.map((row) => {
+                row.imgsrc = process.env.PRODUCTIMG_BASEURI + row.imgsrc;
+                row.price = row.price + ' €';
+            });
             res.json(results);
         }
     );
