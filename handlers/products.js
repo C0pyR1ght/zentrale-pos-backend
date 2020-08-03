@@ -8,12 +8,11 @@ module.exports = function (req, res) {
             console.error(err);
             return res.status(500).end();
           }
-          console.log(err);
-            results.map((row) => {
-                row.imgsrc = process.env.PRODUCTIMG_BASEURI + row.imgsrc;
-                row.price = row.price + ' €';
-            });
-            res.json(results);
+          results.map((row) => {
+              row.imgsrc = process.env.PRODUCTIMG_BASEURI + row.imgsrc;
+              row.price = row.price + ' €';
+          });
+          res.json(results);
         }
     );
 };

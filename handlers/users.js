@@ -8,11 +8,11 @@ module.exports = function (req, res) {
             console.error(err);
             return req.status(500).end();
           }
-            results.map((row) => {
-                row.profile_picture === '' ? row.profile_picture = process.env.AVATAR_DEFAULT : null;
-                row.profile_picture = process.env.AVATAR_BASEURI + row.profile_picture;
-            });
-            res.json(results);
+          results.map((row) => {
+              row.profile_picture === '' ? row.profile_picture = process.env.AVATAR_DEFAULT : null;
+              row.profile_picture = process.env.AVATAR_BASEURI + row.profile_picture;
+          });
+          res.json(results);
         }
     );
 };
