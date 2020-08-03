@@ -12,6 +12,7 @@ module.exports = function (app, opts) {
   app.get('/', simple);
   app.get('/admin', admin);
   app.get('/api/users', users);
+  app.get('/api/user/:id', user);
   app.get('/api/products', products);
   app.get('/api/order/all', orders);
   app.post('/api/order/create', createorder);
