@@ -6,7 +6,7 @@ module.exports = function (req, res) {
         function (err, results) {
           if (err) {
             console.error(err);
-            return req.status(500).end();
+            return res.status(500).end();
           }
           results.map((row) => {
               row.profile_picture === '' ? row.profile_picture = process.env.AVATAR_DEFAULT : null;
