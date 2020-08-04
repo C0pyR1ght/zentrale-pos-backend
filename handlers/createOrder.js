@@ -14,7 +14,7 @@ module.exports = function (req, res) {
       function(err, results) {
         if (err) {
           console.error(err);
-          return req.status(500).end();
+          return res.status(500).end();
         }
         const order = {...req.body};
         order.pos_order_id = results.insertId;

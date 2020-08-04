@@ -6,7 +6,7 @@ module.exports = function (req, res) {
         function (err, results, fields) {
           if (err) {
             console.error(err);
-            return req.status(500).end();
+            return res.status(500).end();
           }
             results.map((row) => {
                 row.imgsrc = process.env.PRODUCTIMG_BASEURI + row.imgsrc;

@@ -15,6 +15,7 @@ module.exports = function (app, opts) {
   app.get('/api/user/:id', user);
   app.get('/api/products', products);
   app.get('/api/order/all', orders);
+  app.post('/api/order/delete/:id', orders);
   app.post('/api/order/create', createorder);
   app.post('/api/accountingperiod/endcurrentperiod', endAccountingPeriod);
   app.post('/api/accountingperiod/createinvoicesforlatestendedperiod', createInvoices);
