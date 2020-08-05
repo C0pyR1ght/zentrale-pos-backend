@@ -46,7 +46,7 @@ module.exports = function main (options, cb) {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB_DATABSE
+    database: process.env.DB_DATABASE
   });
 
   // Create the express app
