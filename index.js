@@ -14,7 +14,7 @@ module.exports = function main (options, cb) {
     // Default options
   }, options);
 
-  const logger = pino();
+  const logger = pino(pino.destination('./pos-backend.log'));
 
   // Server state
   let server;
