@@ -44,21 +44,20 @@ function generateInvoiceForAccount(account, period) {
   let periodEndString = dateFormat(period.enddate, 'dd.mm.yyyy HH:MM "Uhr"');
 
   var invoice = {
-      logo: "https://zentrale-online.org/pos-logo.png",
+      logo: "https://zentrale-online.org/pos-logo.png", // todo quality
       from: "Luca Feiser\nSchafgasse 1\n63500 Seligenstadt",
       currency: "eur",
-      number: "ZENTRALE-0001",
       date: currentDateString,
       due_date: dueDateString,
-      notes: "Abrechnungszeitraum: " +periodStartString+ " bis " +periodEndString+ " \nZahlung Bar oder per PayPal: paypal.me/zentralepos",
+      notes: "Abrechnungszeitraum: " +periodStartString+ " bis " +periodEndString+ ". \nZahlung Bar oder per PayPal: paypal.me/zentralepos",
   };
   invoice.to = account.name;
 
   connection.query(
       'SELECT count(*) AS quantity, name, price as unit_cost FROM pos_orders\n' +
       'LEFT JOIN pos_products ON pos_orders.pos_product_id = pos_products.pos_products_id\n' +
-      'WHERE pos_account_id = '+ account.pos_account_id + ' \n' +
-      'GROUP BY pos_product_id;',
+      'WHERE pos_account_id = '+ account.pos_account_id + ' AND pos_order_datetime BETWEEN \''+period.startdate+'\' AND \''+period.enddate+'\' \n' +
+      'GROUP BY pos_product_id;', // todo order selection in Abhängigkeit der periode
       function (err, results, fields) {
           if (err) {
               console.error(err);
@@ -66,13 +65,40 @@ function generateInvoiceForAccount(account, period) {
           }
 
           invoice.items = JSON.parse(JSON.stringify(results));
-          console.log(invoice);
-
-          InvoiceService(invoice, 'invoice'+account.pos_account_id+'.pdf', function() {
-              console.log("Saved invoice to invoice.pdf");
-          }, function(error) {
-              console.error(error);
-          });
+          generateDBInvoice(invoice, account, period);
       }
   );
+}
+
+function generateDBInvoice(invoice, account, period) {
+  connection.query(
+      'INSERT INTO `zentrale-pos`.`pos_invoices`'+
+      '(`pos_receiving_account_id`,'+
+        '`pos_accounting_period_id`,'+
+        '`amount`,'+ // todo correct amount
+        '`status`)'+
+        'VALUES ('+
+        account.pos_account_id+','+
+        period.pos_accounting_period_id+','+
+        '10, \'offen\');',
+      function (err, results, fields) {
+          if (err) {
+              console.error(err);
+              return res.status(500).end();
+          }
+
+          console.log(results);
+          console.log(fields);
+          invoice.number = "ZENTRALE-" + results.insertId;
+          generateSingleInvoice(invoice, account); // to only if amount > 0
+      }
+  );
+}
+
+function generateSingleInvoice(invoice, account) {
+  InvoiceService(invoice, 'invoice'+account.pos_account_id+'.pdf', function() {
+      console.log("Saved invoice to invoice.pdf");
+  }, function(error) {
+      console.error(error);
+  });
 }
