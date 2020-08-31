@@ -81,7 +81,7 @@ function generateDBInvoice(invoice, account, period) {
   }, 0);
 
   connection.query(
-      'INSERT INTO `zentrale-pos`.`pos_invoices`'+
+      'INSERT INTO `pos_invoices`'+
       '(`pos_receiving_account_id`,'+
         '`pos_accounting_period_id`,'+
         '`amount`,'+
