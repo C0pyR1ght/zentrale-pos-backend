@@ -5,9 +5,9 @@ const InvoiceService = require("../lib/InvoiceService");
 module.exports = function (req, res) {
     connection.query(
         'SELECT * FROM pos_accounting_periods '+
-        'WHERE startdate IS NOT NULL AND enddate IS NOT NULL '+
-        'ORDER BY pos_accounting_period_id desc '+
-        'LIMIT 1',
+    'WHERE startdate IS NOT NULL AND enddate IS NOT NULL '+
+    'ORDER BY pos_accounting_period_id desc '+
+    'LIMIT 1',
         function (err, results, fields) {
             if (err) {
                 console.error(err);
@@ -105,6 +105,7 @@ function generateDBInvoice(invoice, account, period) {
 function generateSingleInvoice(invoice, account) {
   InvoiceService(invoice, 'Rechnung-' + invoice.number + '.pdf', function() {
       console.log("Saved invoice to invoice.pdf");
+      // -->
   }, function(error) {
       console.error(error);
   });
