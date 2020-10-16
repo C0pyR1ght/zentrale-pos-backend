@@ -10,11 +10,13 @@ const createInvoices = require('./handlers/createInvoices');
 const deleteOrder = require('./handlers/deleteOrder');
 const invoices = require('./handlers/invoices');
 const invoiceStatus = require('./handlers/invoiceStatus');
+const stats = require('./handlers/stats');
 
 module.exports = function (app, opts) {
   app.get('/', simple);
   app.get('/admin', admin);
   app.get('/api/users', users);
+  app.get('/api/stats', stats);
   //app.get('/api/user/:id', user);
   app.get('/api/products', products);
   app.get('/api/order/all', orders);
