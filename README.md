@@ -1,3 +1,5 @@
+# Zentrale-POS
+
 get all users with their saldo
 -> saldo = amount of all open invoices + all orders of current accounting period
 
