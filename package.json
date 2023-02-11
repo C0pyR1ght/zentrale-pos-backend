@@ -20,7 +20,7 @@
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "mysql2": "^2.1.0",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.20",
     "pino": "^6.3.2",
     "pino-http": "^5.2.0",
     "pino-pretty": "^4.0.1"
